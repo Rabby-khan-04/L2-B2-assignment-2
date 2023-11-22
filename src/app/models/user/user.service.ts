@@ -11,6 +11,10 @@ const createNewUserIntoDB = async (userData: TUser) => {
     throw new Error(
       "User Name is already in use. Please choose a different User Name.",
     );
+  } else if (await user.isUserEmailExists(userData.email)) {
+    throw new Error(
+      "This Email is already in use. Please choose a different Email.",
+    );
   }
   const result = await user.save();
   return result;

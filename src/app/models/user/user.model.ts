@@ -7,6 +7,8 @@ import {
   UserMethods,
   UserModel,
 } from "./user.interface";
+import bcrypt from "bcrypt";
+import config from "../../config";
 
 // Create a Schema corresponding to the document interface.
 
@@ -46,15 +48,37 @@ const userSchema = new Schema<TUser, UserModel, UserMethods>({
 
 // Method for finding Unique Id
 userSchema.methods.isUserIdExists = async function (id: number) {
-  const exsitingUser = await User.findOne({ userId: id });
-  return exsitingUser;
+  const exsitingUserId = await User.findOne({ userId: id });
+  return exsitingUserId;
 };
 
 // method for finding unique username
 userSchema.methods.isUserNameExists = async function (username: string) {
-  const exsitingUser = await User.findOne({ username });
-  return exsitingUser;
+  const exsitingUsername = await User.findOne({ username });
+  return exsitingUsername;
 };
+
+// method for checking is user email exists
+userSchema.methods.isUserEmailExists = async function (email: string) {
+  const exsitingUserEmail = await User.findOne({ email });
+  return exsitingUserEmail;
+};
+
+// post middleware
+userSchema.pre("save", async function (next) {
+  // eslint-disable-next-line @typescript-eslint/no-this-alias
+  const user = this;
+  user.password = await bcrypt.hash(
+    user.password,
+    Number(config.bcrypt_salt_rounds),
+  );
+  next();
+});
+
+userSchema.post("save", function (doc, next) {
+  doc.password = "";
+  next();
+});
 
 // Create a Model.
 export const User = model<TUser, UserModel>("user", userSchema);

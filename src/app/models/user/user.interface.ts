@@ -38,6 +38,7 @@ export type TUser = {
 export type UserMethods = {
   isUserIdExists(id: number): Promise<TUser | null>;
   isUserNameExists(userName: string): Promise<TUser | null>;
+  isUserEmailExists(email: string): Promise<TUser | null>;
 };
 
 export type UserModel = Model<TUser, Record<string, never>, UserMethods>;
