@@ -4,7 +4,7 @@ import { UserServices } from "./user.service";
 
 const createNewUser = async (req: Request, res: Response) => {
   try {
-    const { userData } = req.body;
+    const { user: userData } = req.body;
     const validUserData = userValidationSchema.parse(userData);
 
     const data = await UserServices.createNewUserIntoDB(validUserData);
@@ -17,7 +17,7 @@ const createNewUser = async (req: Request, res: Response) => {
     res.status(400).json({
       success: false,
       message: error.message || "Something went wrong",
-      error,
+      error: error || null,
     });
   }
 };

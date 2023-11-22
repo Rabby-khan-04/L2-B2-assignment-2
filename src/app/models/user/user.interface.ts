@@ -1,3 +1,5 @@
+import { Model } from "mongoose";
+
 // FullName Interface
 export type TFullName = {
   firstName: string;
@@ -31,3 +33,11 @@ export type TUser = {
   address: TAddress;
   orders?: TOrder[];
 };
+
+//user instance method
+export type UserMethods = {
+  isUserIdExists(id: number): Promise<TUser | null>;
+  isUserNameExists(userName: string): Promise<TUser | null>;
+};
+
+export type UserModel = Model<TUser, Record<string, never>, UserMethods>;

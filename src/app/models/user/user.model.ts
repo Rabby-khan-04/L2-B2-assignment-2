@@ -1,5 +1,12 @@
 import { Schema, model } from "mongoose";
-import { TAddress, TFullName, TOrder, TUser } from "./user.interface";
+import {
+  TAddress,
+  TFullName,
+  TOrder,
+  TUser,
+  UserMethods,
+  UserModel,
+} from "./user.interface";
 
 // Create a Schema corresponding to the document interface.
 
@@ -24,7 +31,7 @@ const orderSchema = new Schema<TOrder>({
 });
 
 // user Schema
-const userSchema = new Schema<TUser>({
+const userSchema = new Schema<TUser, UserModel, UserMethods>({
   userId: { type: Number, required: true, unique: true },
   username: { type: String, required: true, unique: true },
   password: { type: String, required: true },
@@ -37,5 +44,17 @@ const userSchema = new Schema<TUser>({
   orders: { type: [orderSchema] },
 });
 
+// Method for finding Unique Id
+userSchema.methods.isUserIdExists = async function (id: number) {
+  const exsitingUser = await User.findOne({ userId: id });
+  return exsitingUser;
+};
+
+// method for finding unique username
+userSchema.methods.isUserNameExists = async function (username: string) {
+  const exsitingUser = await User.findOne({ username });
+  return exsitingUser;
+};
+
 // Create a Model.
-export const User = model<TUser>("user", userSchema);
+export const User = model<TUser, UserModel>("user", userSchema);
