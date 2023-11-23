@@ -102,6 +102,7 @@ const deleteUserData = async (req: Request, res: Response) => {
   }
 };
 
+// Create new order
 const createOrder = async (req: Request, res: Response) => {
   try {
     const { userId } = req.params;
@@ -121,6 +122,25 @@ const createOrder = async (req: Request, res: Response) => {
   }
 };
 
+// Get all orders
+const getAllOrders = async (req: Request, res: Response) => {
+  try {
+    const { userId } = req.params;
+    const data = await UserServices.getAllOrdersFromDB(parseFloat(userId));
+    res.status(200).json({
+      success: true,
+      message: "Order fetched successfully!",
+      data: data,
+    });
+  } catch (error: any) {
+    res.status(400).json({
+      success: false,
+      message: error.message || "Something went wrong",
+      error: error || null,
+    });
+  }
+};
+
 export const UserController = {
   createNewUser,
   getAllUser,
@@ -128,4 +148,5 @@ export const UserController = {
   updateUserData,
   deleteUserData,
   createOrder,
+  getAllOrders,
 };
