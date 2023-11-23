@@ -75,10 +75,28 @@ const deleteUserDataFromDB = async (userId: number) => {
   }
 };
 
+// Create or add order to user info
+const createOrderIntoDb = async (userId: number, orderData: TOrder) => {
+  if (await User.isUserIdExists(userId)) {
+    const result = await User.updateOne(
+      { userId },
+      {
+        $push: {
+          orders: orderData,
+        },
+      },
+    );
+    return result;
+  } else {
+    throw new Error("User not found!");
+  }
+};
+
 export const UserServices = {
   createNewUserIntoDB,
   getAllUserFromDB,
   getSingleUserFromDb,
   updateUserDataIntoDB,
   deleteUserDataFromDB,
+  createOrderIntoDb,
 };
