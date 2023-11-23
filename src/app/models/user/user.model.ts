@@ -4,7 +4,6 @@ import {
   TFullName,
   TOrder,
   TUser,
-  UserMethods,
   UserModel,
 } from "./user.interface";
 import bcrypt from "bcrypt";
@@ -33,7 +32,7 @@ const orderSchema = new Schema<TOrder>({
 });
 
 // user Schema
-const userSchema = new Schema<TUser, UserModel, UserMethods>({
+const userSchema = new Schema<TUser, UserModel>({
   userId: { type: Number, required: true, unique: true },
   username: { type: String, required: true, unique: true },
   password: { type: String, required: true },
@@ -47,19 +46,19 @@ const userSchema = new Schema<TUser, UserModel, UserMethods>({
 });
 
 // Method for finding Unique Id
-userSchema.methods.isUserIdExists = async function (id: number) {
+userSchema.statics.isUserIdExists = async function (id: number) {
   const exsitingUserId = await User.findOne({ userId: id });
   return exsitingUserId;
 };
 
 // method for finding unique username
-userSchema.methods.isUserNameExists = async function (username: string) {
+userSchema.statics.isUserNameExists = async function (username: string) {
   const exsitingUsername = await User.findOne({ username });
   return exsitingUsername;
 };
 
 // method for checking is user email exists
-userSchema.methods.isUserEmailExists = async function (email: string) {
+userSchema.statics.isUserEmailExists = async function (email: string) {
   const exsitingUserEmail = await User.findOne({ email });
   return exsitingUserEmail;
 };
