@@ -64,6 +64,8 @@ userSchema.statics.isUserEmailExists = async function (email: string) {
 };
 
 // post middleware
+
+// Encrypting password
 userSchema.pre("save", async function (next) {
   // eslint-disable-next-line @typescript-eslint/no-this-alias
   const user = this;
@@ -74,7 +76,28 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
+// Removign password from response
 userSchema.post("save", function (doc, next) {
+  doc.password = "";
+  next();
+});
+
+// Encrypting updated password
+userSchema.pre("findOneAndUpdate", async function (next) {
+  // eslint-disable-next-line @typescript-eslint/no-this-alias
+  const user = this;
+  const updatedUserInfo = user.getUpdate() as { password: string };
+  if (updatedUserInfo) {
+    updatedUserInfo.password = await bcrypt.hash(
+      updatedUserInfo.password,
+      Number(config.bcrypt_salt_rounds),
+    );
+  }
+  next();
+});
+
+// Removign password from response
+userSchema.post("findOneAndUpdate", function (doc, next) {
   doc.password = "";
   next();
 });

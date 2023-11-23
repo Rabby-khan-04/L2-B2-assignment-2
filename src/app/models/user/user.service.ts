@@ -1,4 +1,4 @@
-import { TUser } from "./user.interface";
+import { TOrder, TUser } from "./user.interface";
 import { User } from "./user.model";
 
 // Create a new user into data base
@@ -55,8 +55,30 @@ const getSingleUserFromDb = async (id: number) => {
   }
 };
 
+// Update user info
+const updateUserDataIntoDB = async (userId: number, userData: TUser) => {
+  if (await User.isUserIdExists(userId)) {
+    const reuslt = await User.findOneAndUpdate({ userId }, userData);
+    return reuslt;
+  } else {
+    throw new Error("User not found!");
+  }
+};
+
+// delete user info
+const deleteUserDataFromDB = async (userId: number) => {
+  if (await User.isUserIdExists(userId)) {
+    const reuslt = await User.deleteOne({ userId });
+    return reuslt;
+  } else {
+    throw new Error("User not found!");
+  }
+};
+
 export const UserServices = {
   createNewUserIntoDB,
   getAllUserFromDB,
   getSingleUserFromDb,
+  updateUserDataIntoDB,
+  deleteUserDataFromDB,
 };

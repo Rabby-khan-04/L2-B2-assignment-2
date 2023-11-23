@@ -60,8 +60,52 @@ const getSingleUser = async (req: Request, res: Response) => {
   }
 };
 
+// Update user inf
+const updateUserData = async (req: Request, res: Response) => {
+  try {
+    const { userId } = req.params;
+    const { user: userData } = req.body;
+    const data = await UserServices.updateUserDataIntoDB(
+      parseFloat(userId),
+      userData,
+    );
+    res.status(200).json({
+      success: true,
+      message: "User fetched successfully!",
+      data,
+    });
+  } catch (error: any) {
+    res.status(400).json({
+      success: false,
+      message: error.message || "Something went wrong",
+      error: error || null,
+    });
+  }
+};
+
+// Delete user inf
+const deleteUserData = async (req: Request, res: Response) => {
+  try {
+    const { userId } = req.params;
+    const data = await UserServices.deleteUserDataFromDB(parseFloat(userId));
+    res.status(200).json({
+      success: true,
+      message: "User deleted successfully!",
+      data: null,
+    });
+  } catch (error: any) {
+    res.status(400).json({
+      success: false,
+      message: error.message || "Something went wrong",
+      error: error || null,
+    });
+  }
+};
+
 export const UserController = {
   createNewUser,
   getAllUser,
   getSingleUser,
+  updateUserData,
+  deleteUserData,
 };
