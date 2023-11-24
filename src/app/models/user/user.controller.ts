@@ -60,7 +60,7 @@ const getSingleUser = async (req: Request, res: Response) => {
   }
 };
 
-// Update user inf
+// Update user info
 const updateUserData = async (req: Request, res: Response) => {
   try {
     const { userId } = req.params;
@@ -71,7 +71,7 @@ const updateUserData = async (req: Request, res: Response) => {
     );
     res.status(200).json({
       success: true,
-      message: "User fetched successfully!",
+      message: "User updated successfully!",
       data,
     });
   } catch (error: any) {
