@@ -1,4 +1,5 @@
 import { Model } from "mongoose";
+import { TOrder } from "../order/order.interface";
 
 // FullName Interface
 export type TFullName = {
@@ -11,13 +12,6 @@ export type TAddress = {
   street: string;
   city: string;
   country: string;
-};
-
-// Order Interface
-export type TOrder = {
-  productName: string;
-  price: number;
-  quantity: number;
 };
 
 // User Interface

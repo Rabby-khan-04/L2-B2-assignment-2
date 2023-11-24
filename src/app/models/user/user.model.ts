@@ -1,13 +1,8 @@
 import { Schema, model } from "mongoose";
-import {
-  TAddress,
-  TFullName,
-  TOrder,
-  TUser,
-  UserModel,
-} from "./user.interface";
+import { TAddress, TFullName, TUser, UserModel } from "./user.interface";
 import bcrypt from "bcrypt";
 import config from "../../config";
+import { orderSchema } from "../order/order.model";
 
 // Create a Schema corresponding to the document interface.
 
@@ -22,13 +17,6 @@ const addressSchema = new Schema<TAddress>({
   street: { type: String, required: true },
   city: { type: String, required: true },
   country: { type: String, required: true },
-});
-
-// order Schema
-const orderSchema = new Schema<TOrder>({
-  productName: { type: String, required: true },
-  price: { type: Number, required: true },
-  quantity: { type: Number, required: true },
 });
 
 // user Schema

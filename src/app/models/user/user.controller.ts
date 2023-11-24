@@ -102,71 +102,10 @@ const deleteUserData = async (req: Request, res: Response) => {
   }
 };
 
-// Create new order
-const createOrder = async (req: Request, res: Response) => {
-  try {
-    const { userId } = req.params;
-    const { order } = req.body;
-    await UserServices.createOrderIntoDb(parseFloat(userId), order);
-    res.status(200).json({
-      success: true,
-      message: "Order created successfully!",
-      data: null,
-    });
-  } catch (error: any) {
-    res.status(400).json({
-      success: false,
-      message: error.message || "Something went wrong",
-      error: error || null,
-    });
-  }
-};
-
-// Get all orders
-const getAllOrders = async (req: Request, res: Response) => {
-  try {
-    const { userId } = req.params;
-    const data = await UserServices.getAllOrdersFromDB(parseFloat(userId));
-    res.status(200).json({
-      success: true,
-      message: "Order fetched successfully!",
-      data: data,
-    });
-  } catch (error: any) {
-    res.status(400).json({
-      success: false,
-      message: error.message || "Something went wrong",
-      error: error || null,
-    });
-  }
-};
-
-// Get total price from orders
-const getTotalPrice = async (req: Request, res: Response) => {
-  try {
-    const { userId } = req.params;
-    const data = await UserServices.getTotalPriceFromDB(parseFloat(userId));
-    res.status(200).json({
-      success: true,
-      message: "Total price calculated successfully!",
-      data,
-    });
-  } catch (error: any) {
-    res.status(400).json({
-      success: false,
-      message: error.message || "Something went wrong",
-      error: error || null,
-    });
-  }
-};
-
 export const UserController = {
   createNewUser,
   getAllUser,
   getSingleUser,
   updateUserData,
   deleteUserData,
-  createOrder,
-  getAllOrders,
-  getTotalPrice,
 };
