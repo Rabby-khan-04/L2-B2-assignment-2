@@ -5,7 +5,7 @@ import { UserServices } from "./user.service";
 // Create a new user
 const createNewUser = async (req: Request, res: Response) => {
   try {
-    const { user: userData } = req.body;
+    const userData = req.body;
     const validUserData = userValidationSchema.parse(userData); // Validating input data
 
     const data = await UserServices.createNewUserIntoDB(validUserData);
@@ -64,7 +64,7 @@ const getSingleUser = async (req: Request, res: Response) => {
 const updateUserData = async (req: Request, res: Response) => {
   try {
     const { userId } = req.params;
-    const { user: userData } = req.body;
+    const userData = req.body;
     const data = await UserServices.updateUserDataIntoDB(
       parseFloat(userId),
       userData,

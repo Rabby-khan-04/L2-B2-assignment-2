@@ -52,7 +52,7 @@ const getTotalPriceFromDB = async (userId: number) => {
       },
     ]);
 
-    return result;
+    return result.length > 0 ? result[0] : null;
   } else {
     throw new Error("User not found!");
   }

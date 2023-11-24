@@ -3,7 +3,7 @@ import cors from "cors";
 import { UserRouter } from "./app/models/user/user.route";
 import { OrderRouter } from "./app/models/order/order.route";
 
-const app: Application = express();
+const app: Application = express(); // Creating the express app
 
 // parsers
 app.use(express.json());

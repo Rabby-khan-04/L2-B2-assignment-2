@@ -33,7 +33,7 @@ const getAllUserFromDB = async () => {
         address: 1,
       },
     },
-  ]);
+  ]); // Aggregation pipeline for filtring user data
   return result;
 };
 
@@ -47,9 +47,9 @@ const getSingleUserFromDb = async (id: number) => {
       {
         $project: { _id: 0, password: 0, orders: 0 },
       },
-    ]);
+    ]); // Aggregation pipeline for get single user
 
-    return result;
+    return result.length > 0 ? result[0] : null;
   } else {
     throw new Error("User not found!");
   }

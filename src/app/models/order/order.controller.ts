@@ -5,7 +5,7 @@ import { OrderServices } from "./order.service";
 const createOrder = async (req: Request, res: Response) => {
   try {
     const { userId } = req.params;
-    const { order } = req.body;
+    const order = req.body;
     await OrderServices.createOrderIntoDb(parseFloat(userId), order);
     res.status(200).json({
       success: true,
