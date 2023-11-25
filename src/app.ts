@@ -5,6 +5,15 @@ import { OrderRouter } from "./app/models/order/order.route";
 
 const app: Application = express(); // Creating the express app
 
+const corsOptions = {
+  origin: "*",
+  credentials: true,
+  optionSuccessStatus: 200,
+};
+
+// middleware
+app.use(cors(corsOptions));
+
 // parsers
 app.use(express.json());
 app.use(cors());

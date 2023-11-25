@@ -54,7 +54,10 @@ const getTotalPrice = async (req: Request, res: Response) => {
     res.status(400).json({
       success: false,
       message: error.message || "Something went wrong",
-      error: error || null,
+      error: error || {
+        code: 404,
+        description: "User not found!",
+      },
     });
   }
 };
